@@ -2,6 +2,17 @@ Vũ Tuấn Minh MSV: 24021574
 
 Chủ đề: Game né chướng ngại vật, đánh quái.
 
+Requirements:
+
+•	C++11
+
+•	SDL2
+
+•	SDL2_image
+
+•	SDL2_ttf
+
+•	SDL2_mixer
 
 Nguồn tham khảo, file, âm thanh: 
 
@@ -18,18 +29,5 @@ Nguồn tham khảo, file, âm thanh:
 
 • https://pixabay.com/
 
-
 Sử dụng AI: Không.
 
-
-Requirements:
-
-•	C++11
-
-•	SDL2
-
-•	SDL2_image
-
-•	SDL2_ttf
-
-•	SDL2_mixer
