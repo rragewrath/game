@@ -217,7 +217,7 @@ SDL_Rect dash_cd_rect, ghosthb,
          windwall_cd_rect, skill_cd_rect;
 
 void Game::update(){
-    if(dSpeed > 0) xV = 130, dSpeed -= 1.0 / FPS; else xV = 65;
+    if(dSpeed > 0) xV = 140, dSpeed -= 1.0 / FPS; else xV = 70;
 
     event -= 1.0 / FPS;
 
@@ -516,7 +516,7 @@ void Game::render(){
 
         if(chestType == 4){
             p.push_back({xPlayer, yPlayer, 0.23, HP});
-            play(heal); hp++;
+            play(heal); hp = 3;
         }
 
         if(chestType == 3){
