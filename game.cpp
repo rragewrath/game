@@ -157,8 +157,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     music = loadMusic("music/music.mp3");
     CD = loadSound("music/cd.mp3");
     heal = loadSound("music/heal.mp3");
-
-    play(music);
 }
 
 void Game::gameEvents(){
@@ -258,7 +256,8 @@ void Game::start(){
                 break;
         }
     }
-
+	
+    play(music);
 }
 
 void Game::update(){
