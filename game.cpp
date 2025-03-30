@@ -117,6 +117,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
     background = loadTexture("images/background.png", renderer);
+    resume = loadTexture("images/resume.png", renderer);
+    st = loadTexture("images/begin.png", renderer);
     sword = loadTexture("images/sword.png", renderer);
     shield = loadTexture("images/shield.png", renderer);
     ghost1 = loadTexture("ghost/ghost1.png", renderer);
@@ -168,6 +170,24 @@ void Game::gameEvents(){
             isRunning = false;
             break;
 
+        case SDL_KEYDOWN:
+            if(event.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
+                Mix_PauseMusic();
+                SDL_RenderCopy(renderer, resume, NULL, NULL);
+                SDL_RenderPresent(renderer);
+
+                while(1){
+                    SDL_Event e;
+                    SDL_PollEvent(&e);
+
+                    if(e.type == SDL_KEYDOWN && e.key.keysym.scancode == SDL_SCANCODE_ESCAPE){
+                        Mix_ResumeMusic();
+                        break;
+                    }
+                }
+            }
+            break;
+
         default:
             break;
     }
@@ -182,7 +202,7 @@ double yV = base, xGhost;
 double ghostV = 55;
 bool isGhost, goLeft;
 int FPS = 60, xChest;
-int book_t = 0;
+int book_t, best;
 bool isLeft = 1;
 bool angry, cast;
 double dSpeed;
@@ -215,6 +235,31 @@ mt19937 rd(time(NULL));
 SDL_Rect dash_cd_rect, ghosthb,
          wall, chest_rect, hb, skillhb,
          windwall_cd_rect, skill_cd_rect;
+
+void Game::start(){
+    SDL_RenderCopy(renderer, st, NULL, NULL);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(1000);
+
+    while(1){
+        SDL_Event event;
+        SDL_PollEvent(&event);
+        switch (event.type){
+            case SDL_QUIT:
+                isRunning = false;
+                return;
+                break;
+
+            case SDL_KEYDOWN:
+                return;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+}
 
 void Game::update(){
     if(dSpeed > 0) xV = 140, dSpeed -= 1.0 / FPS; else xV = 70;
@@ -583,22 +628,25 @@ void Game::render(){
             SDL_Texture* replay = loadTexture("images/replay.png", renderer);
             SDL_RenderCopy(renderer, background, NULL, NULL);
 
+            best = max(best, score);
 
-            string tmp1 = "Score: ";
-            string tmp2 = to_string(score);
+            char const *p1 = ("Score: " + to_string(score)).c_str();
+            char const *p2 = ("Best: " + to_string(best)).c_str();
 
-            char const *pchar = (tmp1 + tmp2).c_str();
-
-            SDL_Texture* SCORE = renderText(pchar, font, {236, 221, 34, 255}, renderer);
+            SDL_Texture* SCORE = renderText(p1, font, {236, 221, 34, 255}, renderer);
+            SDL_Texture* HIGH = renderText(p2, font, {236, 221, 34, 255}, renderer);
 
             int tW, tH;
 
             SDL_QueryTexture(SCORE, NULL, NULL, &tW, &tH);
 
-            SDL_Rect textRect = {(800 - tW) / 2, 480, tW, tH};
-            SDL_RenderCopy(renderer, SCORE, NULL, &textRect);
+            SDL_Rect textRect = {(800 - tW) / 2, 420, tW, tH};
+            SDL_Rect textRECT = {(800 - tW) / 2, 515, tW, tH};
 
-            renderTexture(replay, 276, 318, renderer);
+            SDL_RenderCopy(renderer, SCORE, NULL, &textRect);
+            SDL_RenderCopy(renderer, HIGH, NULL, &textRECT);
+
+            renderTexture(replay, 276, 318 - 30, renderer);
 
             SDL_DestroyTexture(background); background = NULL;
             SDL_DestroyTexture(replay); replay = NULL;
@@ -607,7 +655,7 @@ void Game::render(){
             SDL_Rect rep;
 
             rep.x = 293+14;
-            rep.y = 363+12;
+            rep.y = 363+12 - 30;
             rep.w = 171;
             rep.h = 68;
 
