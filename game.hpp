@@ -19,6 +19,7 @@ class Game {
         void gameEvents();
         void update();
         void render();
+        void start();
         void clean();
 
         bool running(){
@@ -34,6 +35,8 @@ class Game {
         int score = 0;
 
         SDL_Texture *background;
+        SDL_Texture *resume;
+        SDL_Texture *st;
 
         Mix_Chunk *harmSound;
         Mix_Chunk *gameOver;
