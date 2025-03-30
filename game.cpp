@@ -249,6 +249,7 @@ void Game::start(){
                 break;
 
             case SDL_KEYDOWN:
+                play(music);
                 return;
                 break;
 
@@ -256,8 +257,6 @@ void Game::start(){
                 break;
         }
     }
-	
-    play(music);
 }
 
 void Game::update(){
