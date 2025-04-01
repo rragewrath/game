@@ -75,6 +75,12 @@ void play(Mix_Chunk* gChunk) {
 }
 
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen){
+    ifstream inp("best.txt");
+
+    inp >> best;
+
+    inp.close();
+
     int flag = fullscreen ? SDL_WINDOW_FULLSCREEN : 0;
 
     if(!SDL_Init(SDL_INIT_EVERYTHING)){
@@ -200,12 +206,12 @@ double yV = base, xGhost;
 double ghostV = 55;
 bool isGhost, goLeft;
 int FPS = 60, xChest;
-int book_t, best;
 bool isLeft = 1;
 bool angry, cast;
 double dSpeed;
 double dShield;
 bool chest;
+int book_t;
 
 struct object{
     double x, y = land, yV = 0; int t;
@@ -704,6 +710,12 @@ void Game::render(){
                     break;
                 }
             } else if(events.type == SDL_QUIT){
+                ofstream out("best.txt");
+
+                out << best;
+
+                out.close();
+
                 isRunning = 0;
                 break;
             }
