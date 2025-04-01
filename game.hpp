@@ -32,7 +32,7 @@ class Game {
         SDL_Renderer *renderer;
         double xPlayer = 0;
         double yPlayer = land;
-        int score = 0;
+        int score = 0, best;
 
         SDL_Texture *background;
         SDL_Texture *resume;
