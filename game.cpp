@@ -154,12 +154,6 @@ void Game::render(){
     }
 
     swap(q, tmp);
-
-    renderTexture(dash, 30, 520, renderer);
-    renderTexture(windwall, 110, 520, renderer);
-    renderTexture(blood, 190, 520, renderer);
-    renderTexture(heart, 500, 500, renderer);
-
     ghost_control(renderer);
     draw_effect(renderer);
 
