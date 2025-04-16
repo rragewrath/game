@@ -65,6 +65,11 @@ void loadAll(SDL_Renderer* renderer){
 }
 
 void draw_effect(SDL_Renderer *renderer){
+    renderTexture(dash, 30, 520, renderer);
+    renderTexture(windwall, 110, 520, renderer);
+    renderTexture(blood, 190, 520, renderer);
+    renderTexture(heart, 500, 500, renderer);
+    
     if(dShield > 0){
         renderTexture(shield, xPlayer, yPlayer, renderer);
         dShield -= 1.0 / FPS;
