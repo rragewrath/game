@@ -16,6 +16,11 @@ void cdr(){
 }
 
 void loadAll(SDL_Renderer* renderer){
+    for(int i = 0; i < 11; i++){char const *d = ("walking/w" + to_string(i + 1) + ".png").c_str(); walk[i][0] = loadTexture(d, renderer);}
+    for(int i = 0; i < 11; i++){char const *c = ("walking/walking" + to_string(i + 1) + ".png").c_str(); walk[i][1] = loadTexture(c, renderer);}
+    for(int i = 0; i < 13; i++){char const *c = ("animation/thunder" + to_string(i + 1) + ".png").c_str(); skill[i] = loadTexture(c, renderer);}
+    for(int i = 0; i < 13; i++){char const *c  = ("animation/book" + to_string(i + 1) + ".png").c_str(); b[i] = loadTexture(c, renderer);}
+    for(int i = 0; i < 13; i++){char const *d  = ("animation/b" + to_string(i + 1) + ".png").c_str(); book[i] = loadTexture(d, renderer);}
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
     background = loadTexture("images/background.png", renderer);
     resume = loadTexture("images/resume.png", renderer);
