@@ -37,7 +37,7 @@ void Game::update(){
     }
 
     if(event <= 0){
-        if(rd() % 17 == 0) q.push_back({750, land + 50, rd() % 120 + 60, 1});
+        if(rd() % 17 == 0) q.push_back({750, land + 50, 130, 1});
 
         q.push_back({(rd() + rd() + rd())% 700 + 10, 1, 0, 0});
 
