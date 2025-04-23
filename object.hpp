@@ -64,7 +64,7 @@ void open_chest(){
 
         if(chestType == 4){
             p.push_back({xPlayer, yPlayer, 0.23, HP});
-            play(heal); hp = 3;
+            play(heal); hp = 3;    
         }
 
         if(chestType == 3){
@@ -75,7 +75,7 @@ void open_chest(){
         if(chestType == 1) dShield = 4;
 
         if(chestType == 2){
-            play(CD);
+            play(CD); q.clear(); event = 1;
             dash_cd_rect.w = 0;
             skill_cd_rect.w = 0;
             windwall_cd_rect.w = 0;
