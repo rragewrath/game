@@ -109,4 +109,6 @@ void draw_effect(SDL_Renderer *renderer){
             tmp2.push_back(u);
         }
     }
+    
+    swap(p, tmp2);
 }
