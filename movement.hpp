@@ -51,7 +51,7 @@ void Game::update(){
         xLast = xPlayer;
         yLast = yPlayer;
 
-        p.push_back({xLast, yLast, 0.15, dash_particle});
+        p.push_back({xLast, yLast, 0.05, dash_particle});
         play(dashSound);
 
         if(isLeft){
