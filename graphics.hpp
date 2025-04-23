@@ -98,4 +98,15 @@ void draw_effect(SDL_Renderer *renderer){
     if(dash_cd_rect.w > 0) SDL_RenderFillRect(renderer, &dash_cd_rect);
     if(skill_cd_rect.w > 0) SDL_RenderFillRect(renderer, &skill_cd_rect);
     if(windwall_cd_rect.w > 0) SDL_RenderFillRect(renderer, &windwall_cd_rect);
+
+    while(p.size()){
+        auto u = p.back();
+        p.pop_back();
+
+        if(u.d > 0){
+            renderTexture(u.image, u.x, u.y, renderer);
+            u.d -= 1.0 / FPS;
+            tmp2.push_back(u);
+        }
+    }
 }
