@@ -64,12 +64,12 @@ void loadAll(SDL_Renderer* renderer){
     heal = loadSound("music/heal.mp3");
 }
 
-void draw_effect(SDL_Renderer *renderer){
+void draw_effect(){
     renderTexture(dash, 30, 520, renderer);
     renderTexture(windwall, 110, 520, renderer);
     renderTexture(blood, 190, 520, renderer);
     renderTexture(heart, 500, 500, renderer);
-    
+
     if(dShield > 0){
         renderTexture(shield, xPlayer, yPlayer, renderer);
         dShield -= 1.0 / FPS;
@@ -109,6 +109,88 @@ void draw_effect(SDL_Renderer *renderer){
             tmp2.push_back(u);
         }
     }
-    
-    swap(p, tmp2);
+
+    swap(tmp2, p);
+
+    SDL_SetRenderDrawColor(renderer, 137, 214, 205, 255);
+
+    if(wall.w > 0){
+        if(cnt % 16 == 1) wall.w -= 2, wall.x++;
+        SDL_RenderFillRect(renderer, &wall);
+    }
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+    if(chest) renderTexture(Chest, xChest, land, renderer);
+}
+
+game_over(int &best, bool &isRunning){
+    SDL_RenderClear(renderer);
+    SDL_Event events;
+    Mix_PauseMusic();
+    play(gameOver);
+
+    while(true){
+        SDL_Texture* background = loadTexture("images/over.jpg", renderer);
+        SDL_Texture* replay = loadTexture("images/replay.png", renderer);
+        SDL_RenderCopy(renderer, background, NULL, NULL);
+
+        best = max(best, score);
+
+        char const *p1 = ("Score: " + to_string(score)).c_str();
+        char const *p2 = ("Best: " + to_string(best)).c_str();
+
+        SDL_Texture* SCORE = renderText(p1, font, {236, 221, 34, 255}, renderer);
+        SDL_Texture* HIGH = renderText(p2, font, {236, 221, 34, 255}, renderer);
+
+        int tW, tH;
+
+        SDL_QueryTexture(SCORE, NULL, NULL, &tW, &tH);
+
+        SDL_Rect textRect = {(800 - tW) / 2, 420, tW, tH};
+        SDL_Rect textRECT = {(800 - tW) / 2, 515, tW, tH};
+
+        SDL_RenderCopy(renderer, SCORE, NULL, &textRect);
+        SDL_RenderCopy(renderer, HIGH, NULL, &textRECT);
+
+        renderTexture(replay, 276, 318 - 30, renderer);
+
+        SDL_DestroyTexture(background); background = NULL;
+        SDL_DestroyTexture(replay); replay = NULL;
+        SDL_DestroyTexture(SCORE); SCORE = NULL;
+
+        SDL_Rect rep;
+
+        rep.x = 293+14;
+        rep.y = 363+12 - 30;
+        rep.w = 171;
+        rep.h = 68;
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderPresent(renderer);
+
+        int x, y;
+
+        SDL_PollEvent(&events);
+        SDL_GetMouseState(&x, &y);
+
+        if(events.type == SDL_MOUSEBUTTONDOWN){
+            SDL_Rect mouse;
+            mouse.x = x; mouse.y = y;
+            mouse.h = 0; mouse.w = 0;
+
+            if(intersect(mouse, rep)){
+                reset();
+                break;
+            }
+        } else if(events.type == SDL_QUIT){
+            ofstream out("best.txt");
+
+            out << best;
+            out.close();
+
+            isRunning = 0;
+            break;
+        }
+    }
 }
