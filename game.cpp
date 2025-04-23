@@ -156,18 +156,6 @@ void Game::render(){
     swap(q, tmp);
     ghost_control(renderer);
     draw_effect(renderer);
-
-    while(p.size()){
-        auto u = p.back();
-        p.pop_back();
-
-        if(u.d > 0){
-            renderTexture(u.image, u.x, u.y, renderer);
-            u.d -= 1.0 / FPS;
-            tmp2.push_back(u);
-        }
-    }
-
     swap(p, tmp2);
 
     if(hp <= 0){
