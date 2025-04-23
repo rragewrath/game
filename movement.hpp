@@ -1,6 +1,6 @@
 
 void Game::update(){
-    if(dSpeed > 0) xV = 140, dSpeed -= 1.0 / FPS; else xV = 70;
+    if(dSpeed > 0) xV = 140, dSpeed -= 1.0 / FPS, g = 200; else xV = 70, g = 260;
 
     event -= 1.0 / FPS;
 
