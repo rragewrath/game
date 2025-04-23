@@ -1,4 +1,4 @@
-void ghost_control(SDL_Renderer *renderer){
+void ghost_control(){
     if(!isGhost){
         xGhost = rd() % 675 + 75;
         ghosthb.x = xGhost + 4;
@@ -52,6 +52,21 @@ void add_chest(){
     }
 }
 
+void upd_hb_and_time(){
+    if(book_t == 14) cast = book_t = 0;
+    if(cast && cnt % 3 == 0) book_t++;
+
+    if(cast){
+        skillhb.x = xPlayer + 90 - 105 * (isLeft);
+        skillhb.y = yPlayer;
+        skillhb.h = 20 + book_t * 5;
+        skillhb.w = 20;
+    }
+
+    hb.h = 58 + (dShield > 0) * 20;
+    hb.w = 33 + (dShield > 0) * 20;
+}
+
 void open_chest(){
     if(chest && intersect(chest_rect, hb)){
         int chestType = rd() % (4 + (hp != 3));
@@ -64,7 +79,7 @@ void open_chest(){
 
         if(chestType == 4){
             p.push_back({xPlayer, yPlayer, 0.23, HP});
-            play(heal); hp = 3;    
+            play(heal); hp = 3;
         }
 
         if(chestType == 3){
@@ -75,7 +90,7 @@ void open_chest(){
         if(chestType == 1) dShield = 4;
 
         if(chestType == 2){
-            play(CD); q.clear(); event = 1;
+            play(CD); q.clear(); event = 2;
             dash_cd_rect.w = 0;
             skill_cd_rect.w = 0;
             windwall_cd_rect.w = 0;
@@ -132,7 +147,7 @@ void kill_ghost(){
                 angry = 1;
                 ghostV *= 3;
 
-                p.push_back({t1, land, 0.15, dash_particle});
+                p.push_back({t1, land, 0.05, dash_particle});
                 play(dashSound);
 
                 if(xGhost > xPlayer) goLeft = 0;
@@ -140,4 +155,45 @@ void kill_ghost(){
             }
         }
     }
+}
+
+void collision_detection(){
+    while(q.size()){
+        auto u = q.back();
+        q.pop_back();
+
+        if(u.y - land - 20){
+            SDL_Rect sw;
+
+            if(!u.t){
+                sw.x = u.x+9; sw.y = u.y;
+                sw.h = 77; sw.w = 28;
+            } else {
+                sw.x = u.x + 6; sw.y = u.y + 15;
+                sw.h = 20; sw.w = 49;
+            }
+
+            if(intersect(hb, sw)){
+                if(dShield <= 0){
+                    p.push_back({xPlayer + 25, yPlayer - 20, 0.2, harm});
+                    play(harmSound);
+                    hp--;
+                } else {
+                    p.push_back({xPlayer + 25, yPlayer - 20, 0.2, shielded});
+                    play(block);
+                }
+
+                continue;
+            }
+
+            u.upd();
+
+            if(!intersect(sw, wall) || wall.w <= 0) tmp.push_back(u);
+
+            if(!u.t) renderTexture(sword, u.x, u.y, renderer);
+                else renderTexture(sword2, u.x, u.y, renderer);
+        }
+    }
+
+    swap(q, tmp);
 }
