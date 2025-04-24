@@ -1,17 +1,17 @@
 void cdr(){
     if(cnt % 8 == 0){
-        dash_cd_rect.x += 1.0;
-        dash_cd_rect.w -= 1.0;
+        dash_cd_rect.x += 1;
+        dash_cd_rect.w -= 1;
     }
 
     if(cnt % 5 == 0){
-        skill_cd_rect.x += 1.0;
-        skill_cd_rect.w -= 1.0;
+        skill_cd_rect.x += 1;
+        skill_cd_rect.w -= 1;
     }
 
     if(cnt % 32 == 0){
-        windwall_cd_rect.x += 1.0;
-        windwall_cd_rect.w -= 1.0;
+        windwall_cd_rect.x += 1;
+        windwall_cd_rect.w -= 1;
     }
 }
 
@@ -22,49 +22,38 @@ void loadAll(SDL_Renderer* renderer){
     for(int i = 0; i < 13; i++){char const *c  = ("animation/book" + to_string(i + 1) + ".png").c_str(); b[i] = loadTexture(c, renderer);}
     for(int i = 0; i < 13; i++){char const *d  = ("animation/b" + to_string(i + 1) + ".png").c_str(); book[i] = loadTexture(d, renderer);}
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-    background = loadTexture("images/background.png", renderer);
-    resume = loadTexture("images/resume.png", renderer);
+    background = loadTexture("images/background.png", renderer); resume = loadTexture("images/resume.png", renderer);
     st = loadTexture("images/begin.png", renderer);
-    sword = loadTexture("images/sword.png", renderer);
+    sword = loadTexture("images/sword.png", renderer); sword2 = loadTexture("images/sword2.png", renderer);
     shield = loadTexture("images/shield.png", renderer);
-    ghost1 = loadTexture("ghost/ghost1.png", renderer);
-    ghost2 = loadTexture("ghost/ghost2.png", renderer);
-    angry1 = loadTexture("ghost/angry1.png", renderer);
-    angry2 = loadTexture("ghost/angry2.png", renderer);
+    ghost1 = loadTexture("ghost/ghost1.png", renderer); ghost2 = loadTexture("ghost/ghost2.png", renderer);
+    angry1 = loadTexture("ghost/angry1.png", renderer); angry2 = loadTexture("ghost/angry2.png", renderer);
     blood = loadTexture("images/blood.jpg", renderer);
-    sword2 = loadTexture("images/sword2.png", renderer);
-    dash_particle = loadTexture("images/dash_particle.png", renderer);
-    dash = loadTexture("images/dash.jpg", renderer);
-    cd = loadTexture("images/cd.png", renderer);
-    windwall = loadTexture("images/windwall.jpg", renderer);
+    dash_particle = loadTexture("images/dash_particle.png", renderer); dash = loadTexture("images/dash.jpg", renderer);
+    cd = loadTexture("images/cd.png", renderer); windwall = loadTexture("images/windwall.jpg", renderer);
     Chest = loadTexture("images/chest.png", renderer);
-    harm = loadTexture("images/harm.png", renderer);
-    HP = loadTexture("images/HP.png", renderer);
-    shielded = loadTexture("images/shielded.png", renderer);
-    heart = loadTexture("images/heart.png", renderer);
-    speed = loadTexture("images/speed.png", renderer);
-    speed2 = loadTexture("images/speed2.png", renderer);
+    harm = loadTexture("images/harm.png", renderer); shielded = loadTexture("images/shielded.png", renderer);
+    HP = loadTexture("images/HP.png", renderer); heart = loadTexture("images/heart.png", renderer);
+    speed = loadTexture("images/speed.png", renderer); speed2 = loadTexture("images/speed2.png", renderer);
     heart2 = loadTexture("images/heart2.png", renderer);
-    font = loadFont("PakPresiden-zrm53.ttf", 100);
-    TTF_Font *font50 = loadFont("PakPresiden-zrm53.ttf", 50);
+    font = loadFont("PakPresiden-zrm53.ttf", 100); font50 = loadFont("PakPresiden-zrm53.ttf", 50);
     takescore = renderText("+100", font50, {236, 221, 34, 255}, renderer);
     killghost = renderText("+20", font50, {236, 221, 34, 255}, renderer);
     killangry = renderText("+50", font50, {236, 221, 34, 255}, renderer);
-    harmSound = loadSound("music/harm.mp3");
-    gameOver = loadSound("music/over.mp3");
-    dashSound = loadSound("music/dash.mp3");
-    skillSound = loadSound("music/skill.mp3");
-    windwallSound = loadSound("music/windwall.mp3");
-    speedboost = loadSound("music/speedboost.mp3");
-    block = loadSound("music/block.mp3");
-    jump = loadSound("music/jump.mp3");
+    harmSound = loadSound("music/harm.mp3"); windwallSound = loadSound("music/windwall.mp3");
+    gameOver = loadSound("music/over.mp3"); dashSound = loadSound("music/dash.mp3");
+    skillSound = loadSound("music/skill.mp3"); speedboost = loadSound("music/speedboost.mp3");
+    block = loadSound("music/block.mp3"); jump = loadSound("music/jump.mp3");
     takescoreSound = loadSound("music/takescoreSound.mp3");
-    music = loadMusic("music/music.mp3");
-    CD = loadSound("music/cd.mp3");
-    heal = loadSound("music/heal.mp3");
+    music = loadMusic("music/music.mp3"); CD = loadSound("music/cd.mp3"); heal = loadSound("music/heal.mp3");
 }
 
 void draw_effect(){
+    char const *p1 = ("Score: " + to_string(score)).c_str();
+    SDL_Texture* SCORE = renderText(p1, font50, {236, 221, 34, 255}, renderer);
+
+    renderTexture(SCORE, 260, 530, renderer);
+
     renderTexture(dash, 30, 520, renderer);
     renderTexture(windwall, 110, 520, renderer);
     renderTexture(blood, 190, 520, renderer);
@@ -80,10 +69,7 @@ void draw_effect(){
     if(isLeft)renderTexture(book[book_t % 13], xPlayer, yPlayer, renderer);
          else renderTexture(b[book_t % 13], xPlayer, yPlayer, renderer);
 
-    if(book_t){
-        if(isLeft) renderTexture(skill[(book_t - 1) % 13], xPlayer - 97, yPlayer, renderer);
-              else renderTexture(skill[(book_t - 1) % 13], xPlayer + 5, yPlayer, renderer);
-    }
+    if(book_t) renderTexture(skill[(book_t - 1) % 13], skillhb.x - 75, land, renderer);
 
     if(dSpeed > 0){
         if(t % 8 < 4) renderTexture(speed, xPlayer, yPlayer, renderer);
@@ -124,51 +110,42 @@ void draw_effect(){
     if(chest) renderTexture(Chest, xChest, land, renderer);
 }
 
-game_over(int &best, bool &isRunning){
-    SDL_RenderClear(renderer);
-    SDL_Event events;
-    Mix_PauseMusic();
-    play(gameOver);
+void game_over(int &best, bool &isRunning){
+    SDL_RenderClear(renderer); SDL_Event events;
+    Mix_PauseMusic(); play(gameOver);
+
+    SDL_Texture* background = loadTexture("images/over.jpg", renderer);
+    SDL_Texture* replay = loadTexture("images/replay.png", renderer);
+    SDL_RenderCopy(renderer, background, NULL, NULL);
+
+    best = max(best, score);
+
+    char const *p1 = ("Score: " + to_string(score)).c_str();
+    char const *p2 = ("Best: " + to_string(best)).c_str();
+
+    SDL_Texture* SCORE = renderText(p1, font, {236, 221, 34, 255}, renderer);
+    SDL_Texture* HIGH = renderText(p2, font, {236, 221, 34, 255}, renderer);
+
+    int tW, tH;
+    SDL_QueryTexture(SCORE, NULL, NULL, &tW, &tH);
+
+    SDL_Rect textRect = {(800 - tW) / 2, 420, tW, tH};
+    SDL_Rect textRECT = {(800 - tW) / 2, 515, tW, tH};
+
+    SDL_RenderCopy(renderer, SCORE, NULL, &textRect);
+    SDL_RenderCopy(renderer, HIGH, NULL, &textRECT);
+
+    renderTexture(replay, 276, 318 - 30, renderer);
+
+    SDL_Rect rep; rep.x = 293+14;
+    rep.y = 363+12 - 30; rep.w = 171; rep.h = 68;
+    SDL_RenderPresent(renderer);
+
+    SDL_DestroyTexture(background); background = NULL;
+    SDL_DestroyTexture(replay); replay = NULL;
+    SDL_DestroyTexture(SCORE); SCORE = NULL;
 
     while(true){
-        SDL_Texture* background = loadTexture("images/over.jpg", renderer);
-        SDL_Texture* replay = loadTexture("images/replay.png", renderer);
-        SDL_RenderCopy(renderer, background, NULL, NULL);
-
-        best = max(best, score);
-
-        char const *p1 = ("Score: " + to_string(score)).c_str();
-        char const *p2 = ("Best: " + to_string(best)).c_str();
-
-        SDL_Texture* SCORE = renderText(p1, font, {236, 221, 34, 255}, renderer);
-        SDL_Texture* HIGH = renderText(p2, font, {236, 221, 34, 255}, renderer);
-
-        int tW, tH;
-
-        SDL_QueryTexture(SCORE, NULL, NULL, &tW, &tH);
-
-        SDL_Rect textRect = {(800 - tW) / 2, 420, tW, tH};
-        SDL_Rect textRECT = {(800 - tW) / 2, 515, tW, tH};
-
-        SDL_RenderCopy(renderer, SCORE, NULL, &textRect);
-        SDL_RenderCopy(renderer, HIGH, NULL, &textRECT);
-
-        renderTexture(replay, 276, 318 - 30, renderer);
-
-        SDL_DestroyTexture(background); background = NULL;
-        SDL_DestroyTexture(replay); replay = NULL;
-        SDL_DestroyTexture(SCORE); SCORE = NULL;
-
-        SDL_Rect rep;
-
-        rep.x = 293+14;
-        rep.y = 363+12 - 30;
-        rep.w = 171;
-        rep.h = 68;
-
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        SDL_RenderPresent(renderer);
-
         int x, y;
 
         SDL_PollEvent(&events);
