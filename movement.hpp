@@ -4,8 +4,6 @@ void Game::update(){
 
     event -= 1.0 / FPS;
 
-    if(cast) return(void(t = 0));
-
     const Uint8* key = SDL_GetKeyboardState(NULL);
 
     if(yPlayer - land){
@@ -37,7 +35,7 @@ void Game::update(){
     }
 
     if(event <= 0){
-        if(rd() % 17 == 0) q.push_back({750, land + 50, 130, 1});
+        if(rd() % 23 == 0) q.push_back({750, land + 50, 130, 1});
 
         q.push_back({(rd() + rd() + rd())% 700 + 10, 1, 0, 0});
 
@@ -66,6 +64,10 @@ void Game::update(){
     if(yPlayer == land && skill_cd_rect.w <= 0 && key[SDL_SCANCODE_J]){
         skill_cd_rect.x = 190; skill_cd_rect.y = 520;
         skill_cd_rect.w = 65; skill_cd_rect.h = 56;
+
+        skillhb.x = xPlayer + 90 - 105 * (isLeft);
+        skillhb.y = yPlayer;
+        skillhb.w = 20;
 
         play(skillSound);
 
