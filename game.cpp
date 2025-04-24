@@ -96,7 +96,9 @@ void Game::render(){
     ghost_control();
     draw_effect();
 
-    if(hp <= 0) return game_over(best, isRunning);
+    if(hp <= 0){
+        return game_over(best, isRunning);
+    }
 
     SDL_RenderPresent(renderer);
 
