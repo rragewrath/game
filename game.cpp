@@ -96,15 +96,12 @@ void Game::render(){
     ghost_control();
     draw_effect();
 
-    if(hp <= 0){
-        game_over(best, isRunning);
-
-        return;
-    }
+    if(hp <= 0) return game_over(best, isRunning);
 
     SDL_RenderPresent(renderer);
 
     if(cnt % (2 - (dSpeed > 0)) == 0) t++;
+    if(cnt == 0) score++;
     t %= FPS;
 }
 
