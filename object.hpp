@@ -56,12 +56,7 @@ void upd_hb_and_time(){
     if(book_t == 14) cast = book_t = 0;
     if(cast && cnt % 3 == 0) book_t++;
 
-    if(cast){
-        skillhb.x = xPlayer + 90 - 105 * (isLeft);
-        skillhb.y = yPlayer;
-        skillhb.h = 20 + book_t * 5;
-        skillhb.w = 20;
-    }
+    skillhb.h = 20 + book_t * 5;
 
     hb.h = 58 + (dShield > 0) * 20;
     hb.w = 33 + (dShield > 0) * 20;
