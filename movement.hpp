@@ -86,7 +86,7 @@ void Game::update(){
         wall.w = 20;
 
         if(isLeft){
-            wall.x = xPlayer - 70;
+            wall.x = xPlayer - 5;
             wall.y = yPlayer;
         } else {
             wall.x = xPlayer + 70;
