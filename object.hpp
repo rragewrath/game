@@ -8,8 +8,8 @@ void ghost_control(){
         if(xGhost > xPlayer) goLeft = 0;
         else goLeft = 1;
     } else {
-        if(isLeft && !goLeft && xPlayer > xGhost && xPlayer - xGhost <= 100 && cast) goLeft = 1;
-        if(!isLeft && goLeft && xPlayer < xGhost && xGhost - xPlayer <= 100 && cast) goLeft = 0;
+        if(rd() % 17 == 0 && isLeft && !goLeft && xPlayer > xGhost && xPlayer - xGhost <= 100 && cast) goLeft = 1;
+        if(rd() % 17 == 0 && !isLeft && goLeft && xPlayer < xGhost && xGhost - xPlayer <= 100 && cast) goLeft = 0;
 
         if(xGhost == 0) goLeft = 0;
         if(xGhost == 750) goLeft = 1;
