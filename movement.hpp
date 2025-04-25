@@ -1,6 +1,5 @@
-
 void Game::update(){
-    if(dSpeed > 0) xV = 140, dSpeed -= 1.0 / FPS, g = 200; else xV = 70, g = 260;
+    if(dSpeed > 0) xV = 140, dSpeed -= 1.0 / FPS, g = 200, event += 0.5 / FPS; else xV = 70, g = 260;
 
     event -= 1.0 / FPS;
 
@@ -35,11 +34,25 @@ void Game::update(){
     }
 
     if(event <= 0){
-        if(rd() % 23 == 0) q.push_back({750, land + 50, 130, 1});
+        if(rd() % 3 == 1) q.push_back({750, land + 50, 170, 1});
 
-        q.push_back({(rd() + rd() + rd())% 700 + 10, 1, 0, 0});
+        int x = rd() % 700;
 
-        event = 0.4;
+        q.push_back({x + 10, 1, 0, 0});
+
+        int d = rd() % 400 + 40;
+
+        if(x + d <= 710 && rd() % 2){
+            q.push_back({x + d, 1, 0, 0});
+        }
+
+        d = rd() % 400 + 40;
+
+        if(x - d >= 10 && rd() % 2){
+            q.push_back({x - d, 1, 0, 0});
+        }
+
+        event = 1;
     }
 
     if(dash_cd_rect.w <= 0 && key[SDL_SCANCODE_L]){
