@@ -1,15 +1,16 @@
 double xPlayer = 0;
 double yPlayer = land;
 double event = 2;
-int cnt, t, hp = 3;
+long long cnt, t;
+int hp = 3, ticks = 0;
 double xLast, yLast;
 double base = 160;
 double g = 260; double xV;
 double yV = base, xGhost;
 double ghostV = 60;
 bool isGhost, goLeft;
-int FPS = 60, xChest, score;
-bool isLeft = 1;
+int xChest, score, gameSpeed = 60;
+bool isLeft = 1, ghost_resit;
 bool angry, cast;
 double dSpeed;
 double dShield;
@@ -18,20 +19,19 @@ bool chest;
 SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Texture *background;
-SDL_Texture *resume;
-SDL_Texture *st;
+SDL_Texture *pause, *menu;
 Mix_Chunk *harmSound, *gameOver;
 Mix_Chunk *dashSound, *skillSound;
 Mix_Chunk *takescoreSound, *CD;
 Mix_Chunk *windwallSound, *heal;
 Mix_Chunk *speedboost;
-Mix_Chunk *jump, *block;
+Mix_Chunk *jump, *block, *menu_sound;
 Mix_Music *music;
 SDL_Texture *walk[11][2], *book[13];
 SDL_Texture *b[13], *skill[13];
 SDL_Texture *sword, *sword2;
 SDL_Texture *cd, *angry1;
-SDL_Texture *angry2;
+SDL_Texture *angry2, *settings;
 SDL_Texture *blood;
 SDL_Texture *ghost1;
 SDL_Texture *ghost2;
@@ -52,21 +52,19 @@ SDL_Texture *speed2;
 SDL_Texture *HP;
 TTF_Font *font, *font50;
 
-SDL_Rect dash_cd_rect, ghosthb,
-         wall, chest_rect, hb, skillhb,
-         windwall_cd_rect, skill_cd_rect;
-
+SDL_Rect dash_cd_rect, ghosthb, menu_rect, resume_rect,
+         wall, chest_rect, hb, skillhb, windwall_cd_rect, skill_cd_rect;
 
 struct object{
     double x, y = land, yV = 0; int t;
 
     void upd(){
         if(!t && y != land){
-            yV -= g / FPS;
-            y = min(land + 20, y - yV / FPS);
+            yV -= g / gameSpeed;
+            y = min(land + 20, y - yV / gameSpeed);
         }
 
-        if(t) x -= yV / FPS;
+        if(t) x -= yV / gameSpeed;
     }
 };
 
@@ -145,34 +143,27 @@ void play(Mix_Chunk* gChunk) {
 }
 
 void reset(){
-    Mix_ResumeMusic();
-    xPlayer = 0;
-    yPlayer = land;
+    Mix_HaltChannel(-1);
+    Mix_RewindMusic();
+    xPlayer = 0; yPlayer = land;
     isLeft = 1;
-    isGhost = 0;
-    cast = 0;
+    isGhost = cast = 0;
     event = 2;
+    ghost_resit = ticks = 0;
     ghostV = 60;
-    angry = 0;
+    angry = dShield = 0;
     skill_cd_rect.w = 0;
-    book_t = 0;
-    wall.w = 0;
-    xLast = 0;
-    dSpeed = 0;
+    book_t = wall.w = 0;
+    xLast = dSpeed = 0;
     yLast = 0;
     base = 160;
     yV = base;
-    cnt = 0;
-    t = 0;
+    cnt = t = 0;
     hp = 3;
-    dash_cd_rect.w = 0;
-    windwall_cd_rect.w = 0;
-    chest = 0;
-    score = 0;
-    p.clear();
-    q.clear();
-    tmp.clear();
-    tmp2.clear();
+    dash_cd_rect.w = windwall_cd_rect.w = 0;
+    chest = score = 0;
+    p.clear(); q.clear();
+    tmp.clear(); tmp2.clear();
 }
 
 bool intersect(SDL_Rect a, SDL_Rect b){
