@@ -17,10 +17,10 @@ void ghost_control(){
         if(!(wall.w > 0 && intersect(ghosthb, wall)))
 
         if(goLeft){
-            xGhost -= ghostV / FPS;
+            xGhost -= ghostV / gameSpeed;
             xGhost = max(0.0, xGhost);
         } else {
-            xGhost += ghostV / FPS;
+            xGhost += ghostV / gameSpeed;
             xGhost = min(xGhost, 750.0);
         }
 
@@ -35,7 +35,7 @@ void ghost_control(){
 }
 
 void add_chest(){
-    if(!chest && rd() % 500 == 0){
+    if(!chest && rd() % ((420 * gameSpeed) / 60) == 0){
         xChest = rd() % 650 + 75;
 
         chest_rect.y = land + 55;
@@ -64,7 +64,7 @@ void upd_hb_and_time(){
 
 void open_chest(){
     if(chest && intersect(chest_rect, hb)){
-        int chestType = rd() % (4 + (hp != 3));
+        int chestType = rd() % (13 - 3 * hp);
 
         if(chestType == 0){
             score += 100;
@@ -72,17 +72,17 @@ void open_chest(){
             p.push_back({xPlayer + 25, yPlayer - 20, 0.23, takescore});
         }
 
-        if(chestType == 4){
+        if(chestType >= 4){
             p.push_back({xPlayer, yPlayer, 0.23, HP});
             play(heal); hp = 3;
         }
 
         if(chestType == 3){
             play(speedboost);
-            dSpeed = 5;
+            dSpeed = 8;
         }
 
-        if(chestType == 1) dShield = 4;
+        if(chestType == 1) dShield = 6.5;
 
         if(chestType == 2){
             play(CD); q.clear(); event = 2;
@@ -96,19 +96,26 @@ void open_chest(){
     }
 }
 
-void remove_chest(){
+void ghost_attack(){
     if(isGhost && chest && intersect(ghosthb, chest_rect)) chest = 0;
-    if(isGhost && intersect(ghosthb, hb)){
-        if(dShield <= 0){
-            p.push_back({xPlayer + 25, yPlayer - 20, 0.2, harm});
-            hp--; play(harmSound);
-        } else {
-            p.push_back({xPlayer + 25, yPlayer - 20, 0.2, shielded});
-            play(block);
-        }
-        goLeft ^= 1;
 
-        if(xGhost + 20 >= 750) xGhost -= 14; else xGhost += 14;
+    if(ticks == 80) ghost_resit = 0, ticks = 0;
+
+    if(isGhost && intersect(ghosthb, hb)){
+        if(!ghost_resit){
+            if(dShield <= 0){
+                p.push_back({xPlayer + 25, yPlayer - 20, 0.2, harm});
+                hp--; play(harmSound);
+            } else {
+                p.push_back({xPlayer + 25, yPlayer - 20, 0.2, shielded});
+                goLeft ^= 1; play(block);
+            }
+
+            ghost_resit = 1;
+        } else ticks++;
+    } else {
+        ghost_resit = 0;
+        ticks = 0;
     }
 }
 
@@ -116,10 +123,8 @@ void kill_ghost(){
     hb.x = xPlayer + 29 - (dShield > 0) * 10;
     hb.y = yPlayer + 29 - (dShield > 0) * 8;
 
-    ghosthb.x = xGhost + 4;
-    ghosthb.y = land + 50;
-    ghosthb.w = 22;
-    ghosthb.h = 34;
+    ghosthb.x = xGhost + 4; ghosthb.y = land + 50;
+    ghosthb.w = 22; ghosthb.h = 34;
 
     if(isGhost && cast && intersect(skillhb, ghosthb)){
         if(angry){
@@ -133,7 +138,7 @@ void kill_ghost(){
             xGhost = rd() % 675 + 75;
             ghosthb.x = xGhost + 4;
 
-            if(abs(xGhost - xPlayer) <= 250){
+            if(abs(xGhost - xPlayer) <= 200){
                 isGhost = 0; score += 20;
                 play(takescoreSound);
 
@@ -171,8 +176,7 @@ void collision_detection(){
             if(intersect(hb, sw)){
                 if(dShield <= 0){
                     p.push_back({xPlayer + 25, yPlayer - 20, 0.2, harm});
-                    play(harmSound);
-                    hp--;
+                    play(harmSound); hp--;
                 } else {
                     p.push_back({xPlayer + 25, yPlayer - 20, 0.2, shielded});
                     play(block);
@@ -183,7 +187,7 @@ void collision_detection(){
 
             u.upd();
 
-            if(!intersect(sw, wall) || wall.w <= 0) tmp.push_back(u);
+            if((!cast || !intersect(skillhb, sw)) && (!intersect(sw, wall) || wall.w <= 0)) tmp.push_back(u);
 
             if(!u.t) renderTexture(sword, u.x, u.y, renderer);
                 else renderTexture(sword2, u.x, u.y, renderer);
