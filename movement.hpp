@@ -1,17 +1,17 @@
 void Game::update(){
-    if(dSpeed > 0) xV = 140, dSpeed -= 1.0 / FPS, g = 200, event += 0.5 / FPS; else xV = 70, g = 260;
+    if(dSpeed > 0) xV = 140, dSpeed -= 1.0 / gameSpeed, g = 200, event += 0.5 / gameSpeed; else xV = 70, g = 260;
 
-    event -= 1.0 / FPS;
+    event -= 1.0 / gameSpeed;
 
     const Uint8* key = SDL_GetKeyboardState(NULL);
 
     if(yPlayer - land){
-        yPlayer = min(land, yPlayer - yV / FPS);
-        yV -= g / FPS;
+        yPlayer = min(land, yPlayer - yV / gameSpeed);
+        yV -= g / gameSpeed;
     }
 
     if(key[SDL_SCANCODE_RIGHT] || key[SDL_SCANCODE_D]){
-        xPlayer += xV / FPS;
+        xPlayer += xV / gameSpeed;
         xPlayer = min(xPlayer, 750.0);
 
         if(isLeft) t = 0;
@@ -19,7 +19,7 @@ void Game::update(){
     } else
 
     if(key[SDL_SCANCODE_LEFT] || key[SDL_SCANCODE_A]){
-        xPlayer -= xV / FPS;
+        xPlayer -= xV / gameSpeed;
         xPlayer = max(0.0, xPlayer);
 
         if(!isLeft) t = 0;
@@ -29,8 +29,8 @@ void Game::update(){
     if(yPlayer == land && (key[SDL_SCANCODE_W] || key[SDL_SCANCODE_UP])){
         play(jump);
 
-        yPlayer = min(land, yPlayer - yV / FPS);
-        yV = base - g / FPS;
+        yPlayer = min(land, yPlayer - yV / gameSpeed);
+        yV = base - g / gameSpeed;
     }
 
     if(event <= 0){
@@ -52,11 +52,11 @@ void Game::update(){
             q.push_back({x - d, 1, 0, 0});
         }
 
-        event = 1;
+        event = 1.1;
     }
 
     if(dash_cd_rect.w <= 0 && key[SDL_SCANCODE_L]){
-        dash_cd_rect.x = 30; dash_cd_rect.y = 520;
+        dash_cd_rect.x = 5; dash_cd_rect.y = 520;
         dash_cd_rect.h = 56; dash_cd_rect.w = 65;
 
         xLast = xPlayer;
@@ -66,16 +66,16 @@ void Game::update(){
         play(dashSound);
 
         if(isLeft){
-            xPlayer -= xV;
+            xPlayer -= 55 * xV / gameSpeed;
             xPlayer = max(0.0, xPlayer);
         } else {
-            xPlayer += xV;
+            xPlayer += 55 * xV / gameSpeed;
             xPlayer = min(700.0, xPlayer);
         }
     }
 
-    if(yPlayer == land && skill_cd_rect.w <= 0 && key[SDL_SCANCODE_J]){
-        skill_cd_rect.x = 190; skill_cd_rect.y = 520;
+    if(skill_cd_rect.w <= 0 && key[SDL_SCANCODE_J]){
+        skill_cd_rect.x = 165; skill_cd_rect.y = 520;
         skill_cd_rect.w = 65; skill_cd_rect.h = 56;
 
         skillhb.x = xPlayer + 90 - 105 * (isLeft);
@@ -90,7 +90,7 @@ void Game::update(){
     if(windwall_cd_rect.w <= 0 && key[SDL_SCANCODE_K]){
         play(windwallSound);
 
-        windwall_cd_rect.x = 110;
+        windwall_cd_rect.x = 85;
         windwall_cd_rect.y = 520;
         windwall_cd_rect.h = 56;
         windwall_cd_rect.w = 65;
