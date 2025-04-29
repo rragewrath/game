@@ -26,6 +26,6 @@ class Game {
         }
 
     private:
-        bool isRunning;
-        int best;
+        bool isRunning, isMenu;
+        int best, volume = 60;
 };
