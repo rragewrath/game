@@ -89,16 +89,14 @@ void Game::gameEvents(){
                         SDL_Rect mouse = {x, y, 0, 0};
 
                         if(intersect(mouse, resume_rect)){
-                            reset();
+                            reset(); isMenu = 0;
                             play(menu_sound);
                             play(music);
-                            isMenu = 0;
                             break;
                         }
 
                         if(intersect(mouse, menu_rect)){
                             play(menu_sound);
-
                             Mix_VolumeMusic(volume);
                             Mix_Volume(-1, volume);
 
