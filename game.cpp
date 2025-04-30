@@ -28,6 +28,8 @@ void Game::gameEvents(){
     SDL_Event event;
     SDL_PollEvent(&event);
 
+    pos:;
+
     switch (event.type){
         case SDL_QUIT:
             isRunning = false;
@@ -55,10 +57,8 @@ void Game::gameEvents(){
                         SDL_Rect mouse = {x, y, 0, 0};
 
                         if(intersect(mouse, resume_rect)){
-                            Mix_ResumeMusic();
-                            Mix_Resume(-1);
-                            play(menu_sound);
-                            break;
+                            Mix_ResumeMusic(); Mix_Resume(-1);
+                            play(menu_sound); break;
                         }
 
                         if(intersect(mouse, menu_rect)){
@@ -80,7 +80,7 @@ void Game::gameEvents(){
                     SDL_PollEvent(&e);
 
                     if(e.type == SDL_QUIT){
-                        isRunning = 0;
+                        isRunning = 0; 
                         break;
                     }
 
@@ -89,10 +89,8 @@ void Game::gameEvents(){
                         SDL_Rect mouse = {x, y, 0, 0};
 
                         if(intersect(mouse, resume_rect)){
-                            reset(); isMenu = 0;
-                            play(menu_sound);
-                            play(music);
-                            break;
+                            reset(); isMenu = 0; play(menu_sound);
+                            play(music); break;
                         }
 
                         if(intersect(mouse, menu_rect)){
@@ -134,21 +132,15 @@ void Game::gameEvents(){
                                         }
                                     }
                                     gameSpeed = max(gameSpeed, 1);
-
                                     if(e.type == SDL_MOUSEBUTTONUP) flag2 = 0, flag = 0;
 
                                     if(e.type == SDL_MOUSEBUTTONDOWN){
                                         SDL_GetMouseState(&x, &y);
-
-                                        SDL_Rect mouse;
-                                        mouse.x = x; mouse.y = y;
-                                        mouse.h = 0; mouse.w = 0;
+                                        SDL_Rect mouse = {x, y, 0, 0};
 
                                         if(intersect(mouse, return_rect)){
-                                            Mix_ResumeMusic();
-                                            Mix_Resume(-1);
-                                            play(menu_sound);
-                                            goto gello;
+                                            Mix_ResumeMusic(); Mix_Resume(-1);
+                                            play(menu_sound); goto pos;
                                         }
                                     }
                                 }
