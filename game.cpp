@@ -63,8 +63,7 @@ void Game::gameEvents(){
 
                         if(intersect(mouse, menu_rect)){
                             play(menu_sound);
-                            isMenu = 1;
-                            break;
+                            isMenu = 1; break;
                         }
                     }
                 }
