@@ -58,8 +58,12 @@ void upd_hb_and_time(){
 
     skillhb.h = 20 + book_t * 5;
 
-    hb.h = 58 + (dShield > 0) * 20;
-    hb.w = 33 + (dShield > 0) * 20;
+    for(int i = 0; i < hb.size(); i++){
+        hb[i].h = base_hb[i].h + (dShield > 0) * 20;
+        hb[i].w = base_hb[i].w + (dShield > 0) * 20;
+        hb[i].x = xPlayer + base_hb[i].x - (dShield > 0) * 10;
+        hb[i].y = yPlayer + base_hb[i].y - (dShield > 0) * 8;
+    }
 }
 
 void open_chest(){
@@ -120,9 +124,6 @@ void ghost_attack(){
 }
 
 void kill_ghost(){
-    hb.x = xPlayer + 29 - (dShield > 0) * 10;
-    hb.y = yPlayer + 29 - (dShield > 0) * 8;
-
     ghosthb.x = xGhost + 4; ghosthb.y = land + 50;
     ghosthb.w = 22; ghosthb.h = 34;
 
@@ -173,7 +174,7 @@ void collision_detection(){
                 sw.h = 20; sw.w = 49;
             }
 
-            if(intersect(hb, sw)){
+            if(intersect(sw, hb)){
                 if(dShield <= 0){
                     p.push_back({xPlayer + 25, yPlayer - 20, 0.2, harm});
                     play(harmSound); hp--;
