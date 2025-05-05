@@ -7,7 +7,7 @@ double xLast, yLast, base = 160;
 double g = 260; double xV;
 double yV = base, xGhost, ghostV = 60;
 bool isGhost, goLeft;
-int xChest, score, gameSpeed = 60;
+int xChest, score, gameSpeed = 68;
 bool isLeft = 1, ghost_resit;
 bool angry, cast;
 double dSpeed, dShield;
