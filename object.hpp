@@ -168,10 +168,10 @@ void collision_detection(){
 
             if(!u.t){
                 sw.x = u.x+9; sw.y = u.y;
-                sw.h = 77; sw.w = 28;
+                sw.h = 77; sw.w = 28 + (gameSpeed < 10) * 5 * (20 - gameSpeed * 2);
             } else {
                 sw.x = u.x + 6; sw.y = u.y + 15;
-                sw.h = 20; sw.w = 49;
+                sw.h = 20; sw.w = 49 + (gameSpeed < 10) * 5 * (20 - gameSpeed * 2);
             }
 
             if(intersect(sw, hb)){
