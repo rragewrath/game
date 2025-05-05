@@ -3,17 +3,14 @@ double yPlayer = land;
 double event = 2;
 long long cnt, t;
 int hp = 3, ticks = 0;
-double xLast, yLast;
-double base = 160;
+double xLast, yLast, base = 160;
 double g = 260; double xV;
-double yV = base, xGhost;
-double ghostV = 60;
+double yV = base, xGhost, ghostV = 60;
 bool isGhost, goLeft;
 int xChest, score, gameSpeed = 60;
 bool isLeft = 1, ghost_resit;
 bool angry, cast;
-double dSpeed;
-double dShield;
+double dSpeed, dShield;
 int book_t;
 bool chest;
 SDL_Window *window;
@@ -52,8 +49,10 @@ SDL_Texture *speed2;
 SDL_Texture *HP;
 TTF_Font *font, *font50;
 
+vector<SDL_Rect> hb, base_hb;
+
 SDL_Rect dash_cd_rect, ghosthb, menu_rect, resume_rect,
-         wall, chest_rect, hb, skillhb, windwall_cd_rect, skill_cd_rect;
+         wall, chest_rect, skillhb, windwall_cd_rect, skill_cd_rect;
 
 struct object{
     double x, y = land, yV = 0; int t;
@@ -99,8 +98,7 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer){
 void renderTexture(SDL_Texture *texture, double x, double y,
                    SDL_Renderer* renderer){
 	SDL_Rect dest;
-	dest.x = x;
-	dest.y = y;
+	dest.x = x; dest.y = y;
 	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
 
 	SDL_RenderCopy(renderer, texture, NULL, &dest);
@@ -173,4 +171,14 @@ bool intersect(SDL_Rect a, SDL_Rect b){
     if(a.y > b.y + b.h) return 0;
 
     return 1;
+}
+
+bool intersect(SDL_Rect a, vector<SDL_Rect> &x){
+    for(auto &b: x){
+        if(intersect(a, b)){
+            return 1;
+        }
+    }
+
+    return 0;
 }
