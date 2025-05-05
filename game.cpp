@@ -101,7 +101,7 @@ void Game::gameEvents(){
                             SDL_Rect sliderBar = {250+100, 200-25, 300, 10};
                             SDL_Rect sliderKnob = {250+100 + (volume * 300 / 128) - 5, 195-25, 10, 20};
                             SDL_Rect sliderBar2 = {250+100, 200-25 + 90, 300, 10};
-                            SDL_Rect sliderKnob2 = {250+100 + (((120 - gameSpeed) * 300) / 128) - 5, 195-25 + 90, 10, 20};
+                            SDL_Rect sliderKnob2 = {250+100 + (((128 - gameSpeed) * 300) / 128) - 5, 195-25 + 90, 10, 20};
 
                             SDL_Event e;
                             bool flag = 0, flag2 = 0;
@@ -138,7 +138,6 @@ void Game::gameEvents(){
                                         SDL_Rect mouse = {x, y, 0, 0};
 
                                         if(intersect(mouse, return_rect)){
-                                            Mix_ResumeMusic(); Mix_Resume(-1);
                                             play(menu_sound); goto pos;
                                         }
                                     }
