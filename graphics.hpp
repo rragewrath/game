@@ -48,6 +48,9 @@ void loadAll(SDL_Renderer* renderer, int volume){
     music = loadMusic("music/music.mp3"); CD = loadSound("music/cd.mp3"); heal = loadSound("music/heal.mp3");
     resume_rect.x = 230; resume_rect.y = 228; resume_rect.w = 340; resume_rect.h = 103;
     menu_rect.x = 230; menu_rect.y = 368; menu_rect.w = 340; menu_rect.h = 103;
+    hb.push_back({36, 30, 20, 20}); base_hb.push_back({36, 30, 20, 20});
+    hb.push_back({31, 50, 30, 20}); base_hb.push_back({31, 50, 30, 20});
+    hb.push_back({36, 65, 20, 20}); base_hb.push_back({36, 65, 20, 20});
 }
 
 void draw_effect(){
@@ -108,7 +111,6 @@ void draw_effect(){
     }
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
     if(chest) renderTexture(Chest, xChest, land, renderer);
 }
 
@@ -153,16 +155,13 @@ void game_over(int &best, bool &isRunning, bool &isMenu){
             SDL_Rect mouse = {x, y, 0, 0};
 
             if(intersect(mouse, rep)){
-                reset();
-                play(menu_sound);
-                play(music);
-                break;
+                reset(); play(menu_sound);
+                play(music); break;
             }
 
             if(intersect(mouse, MENU)){
                 play(menu_sound);
-                isMenu = 1;
-                break;
+                isMenu = 1; break;
             }
         } else if(events.type == SDL_QUIT){
             ofstream out("best.txt");
