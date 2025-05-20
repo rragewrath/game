@@ -98,7 +98,7 @@ void open_chest(){
 
 void ghost_attack(){
     if(isGhost && chest && intersect(ghosthb, chest_rect)) chest = 0;
-    if(isRise && chest && intersect(chest_rect, lava_rect)) chest = 0;
+    if(isRise && chest && chest_rect.y >= lava_rect.y) chest = 0;
 
     if(ticks == 80) ghost_resit = 0, ticks = 0;
 
@@ -124,7 +124,7 @@ void kill_ghost(){
     ghosthb.x = xGhost + 4; ghosthb.y = land + 50;
     ghosthb.w = 22; ghosthb.h = 34;
 
-    if(isGhost && intersect(ghosthb, lava_rect)) isGhost = 0, angry = 0;
+    if(isGhost && ghosthb.y >= lava_rect.y) isGhost = 0, angry = 0;
 
     if(isGhost && book_t && intersect(skillhb, ghosthb)){
         if(angry){
@@ -185,7 +185,7 @@ void collision_detection(){
                 continue;
             }
 
-            bool flag = !isRise || !intersect(lava_rect, sw);
+            bool flag = !isRise || lava_rect.y > sw.y;
 
             for(auto &r: blocks){
                 if(intersect(r, sw)){
