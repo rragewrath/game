@@ -171,7 +171,7 @@ void addBlocks(int k){
     float max_dx = xV * t_total;
     float max_dy = (base * base) / (1.25 * g);
 
-    int x = 0, y = 405 - rd() % 30;
+    int x = 0, y = 400 - rd() % 30;
     max_d = INT_MAX;
 
     for (int i = 0; i < k;){
@@ -207,7 +207,7 @@ void addBlocks(int k){
 
             (x += dx) %= 800; y += dy;
 
-            if (y > 485 - 20) y = 485 - 20;
+            if (y > 450) y = 400;
             if (y < 100) y = 100;
         } else {
             x += 20;
@@ -220,8 +220,8 @@ void lava_rise(){
     if(isRise){
         if(intersect(lava_rect, hb) && dShield <= 0) hp = 0;
 
-        if(isDown) if(cnt % (gameSpeed + 2) == 0) lava_rect.y += 8, lava_rect.h -= 8;
-        if(!isDown) if(cnt % (gameSpeed + 2) == 0) lava_rect.y -= 8, lava_rect.h += 8;
+        if(isDown) if(cnt % (gameSpeed + 5) == 0) lava_rect.y += 7, lava_rect.h -= 7;
+        if(!isDown) if(cnt % (gameSpeed + 5) == 0) lava_rect.y -= 7, lava_rect.h += 7;
 
         SDL_RenderCopy(renderer, lava, NULL, &lava_rect);
 
