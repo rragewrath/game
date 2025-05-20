@@ -15,6 +15,7 @@ Vũ Tuấn Minh MSV: 24021574
 •	SDL2_mixer
 
 **Hướng dẫn chơi:**
+
 *Phím tắt:*
 
 +) WAD: di chuyển.
