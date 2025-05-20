@@ -176,7 +176,7 @@ void addBlocks(int k){
 
     for (int i = 0; i < k;){
         SDL_Rect p = {x, y, 100, 20};
-        SDL_Rect pBlockZone = {x - 5, y - 60, 105, 60};
+        SDL_Rect pBlockZone = {x - 7, y - 60, 107, 60};
 
         bool valid = true;
 
@@ -187,7 +187,7 @@ void addBlocks(int k){
                 valid = false;
                 break;
             }
-            SDL_Rect blockZone = {other.x - 5, other.y - 60, other.w + 5, 60};
+            SDL_Rect blockZone = {other.x - 7, other.y - 60, other.w + 7, 60};
 //            SDL_RenderFillRect(renderer, &blockZone);
 //            SDL_RenderDrawRect(renderer, &p);
 //            SDL_RenderPresent(renderer);
@@ -197,10 +197,12 @@ void addBlocks(int k){
                 break;
             }
         }
+//            cout << x <<" "<< y<< endl;
 
         if(valid){
             blocks.push_back(p); ++i;
             max_d = min(max_d, y);
+
 
             int dx = rand() % (int)(max_dx - 35) + 135;
             int dy = rand() % (int)(max_dy * 1.4f) - (int)(max_dy);
@@ -211,7 +213,17 @@ void addBlocks(int k){
             if (y < 100) y = 100;
         } else {
             x += 20;
-            if(x > 750) x = 0, y += 15;
+
+            bool q;
+
+            if(x > 750){
+                x = 0;
+
+                if(y > 450 - 15) q = 0;
+                if(y < 115) q = 1;
+
+                y += 15 * (q ? -1 : 1);
+            }
         }
     }
 }
