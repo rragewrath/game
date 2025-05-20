@@ -176,7 +176,7 @@ void addBlocks(int k){
 
     for (int i = 0; i < k;){
         SDL_Rect p = {x, y, 100, 20};
-        SDL_Rect pBlockZone = {x - 7, y - 60, 107, 60};
+        SDL_Rect pBlockZone = {x - 21, y - 60, 142, 60};
 
         bool valid = true;
 
@@ -187,7 +187,7 @@ void addBlocks(int k){
                 valid = false;
                 break;
             }
-            SDL_Rect blockZone = {other.x - 7, other.y - 60, other.w + 7, 60};
+            SDL_Rect blockZone = {other.x - 21, other.y - 60, other.w + 42, 60};
 //            SDL_RenderFillRect(renderer, &blockZone);
 //            SDL_RenderDrawRect(renderer, &p);
 //            SDL_RenderPresent(renderer);
@@ -219,8 +219,8 @@ void addBlocks(int k){
             if(x > 750){
                 x = 0;
 
-                if(y > 410 - 15) q = 0;
-                if(y < 115) q = 1;
+                if(y > 410 - 15) q = 1;
+                if(y < 115) q = 0;
 
                 y += 15 * (q ? -1 : 1);
             }
