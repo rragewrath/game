@@ -27,5 +27,5 @@ Vũ Tuấn Minh MSV: 24021574
 *Cách chơi: né những thanh kiếm đâm vào bạn và ma tiến đến bạn, nhặt rương hoặc giết ma để nhận thưởng, 
   bắt đầu từ 50 điểm và mỗi 150 điểm sau đó dung nham sẽ tràn lên, hãy tránh xa chúng*
 
-Tham khảo, âm thanh, ảnh trên mạng. 
-
+**Tham khảo, âm thanh, ảnh trên mạng.** 
+**Tham khảo một ít cách chia hàm trên mạng, thuật toán tự nghĩ.**
