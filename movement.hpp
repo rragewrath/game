@@ -55,23 +55,23 @@ void skill_J(const Uint8* key){
 
 void skill_K(const Uint8* key){
     if(windwall_cnt == -1 && key[SDL_SCANCODE_K]){
+        play(windwallSound);
         windwall_cnt = 0;
 
-        play(windwallSound);
-
-        wall.h = 96; wall.w = 20;
+        wall.h = 56; wall.w = 20;
 
         if(key[SDL_SCANCODE_S]){
             wall.h = 10; wall.w = 65;
             wall.x = xPlayer + 15;
             wall.y = yPlayer - 20;
         } else {
+            windwall_cnt = 30;
             if(isLeft){
                 wall.x = xPlayer - 5;
-                wall.y = yPlayer;
+                wall.y = yPlayer + 30;
             } else {
                 wall.x = xPlayer + 70;
-                wall.y = yPlayer;
+                wall.y = yPlayer + 30;
             }
         }
 
