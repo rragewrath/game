@@ -171,7 +171,7 @@ void addBlocks(int k){
     float max_dx = xV * t_total;
     float max_dy = (base * base) / (1.25 * g);
 
-    int x = 0, y = 400 - rd() % 30;
+    int x = 0, y = 410 - rd() % 30;
     max_d = INT_MAX;
 
     for (int i = 0; i < k;){
@@ -209,7 +209,7 @@ void addBlocks(int k){
 
             (x += dx) %= 800; y += dy;
 
-            if (y > 450) y = 400;
+            if (y > 410) y = 410;
             if (y < 100) y = 100;
         } else {
             x += 20;
@@ -219,7 +219,7 @@ void addBlocks(int k){
             if(x > 750){
                 x = 0;
 
-                if(y > 450 - 15) q = 0;
+                if(y > 410 - 15) q = 0;
                 if(y < 115) q = 1;
 
                 y += 15 * (q ? -1 : 1);
