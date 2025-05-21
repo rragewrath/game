@@ -17,7 +17,7 @@ void moveAD(const Uint8* key){
 
 void sword_spawn(){
     if(event <= 0){
-        if(rd() % 3 == 1) q.push_back({800, land + 50, 170, 1});
+        if(rd() % 3 == 1 && !isRise) q.push_back({800, land + 50, 170, 1});
 
         int x = rd() % 800;
 
