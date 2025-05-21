@@ -3,7 +3,7 @@ void ghost_control(){
         xGhost = rd() % 700 + 75;
         ghosthb.x = xGhost + 4;
 
-        if(rd() % 170 == 0 && abs(xGhost - xPlayer) >= 100) isGhost = 1;
+        if(!isRise && rd() % 170 == 0 && abs(xGhost - xPlayer) >= 100) isGhost = 1;
 
         if(xGhost > xPlayer) goLeft = 0;
         else goLeft = 1;
@@ -38,7 +38,7 @@ void ghost_control(){
 }
 
 void add_chest(){
-    if(!chest && rd() % ((420 * gameSpeed) / 60) == 0){
+    if(!isRise && !chest && rd() % ((420 * gameSpeed) / 60) == 0){
         xChest = rd() % 650 + 75;
 
         chest_rect.y = land + 55;
